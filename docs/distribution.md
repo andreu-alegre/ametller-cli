@@ -1,11 +1,12 @@
 # Distribución
 
-Repositorio: https://github.com/andreu-alegre/ametller-cli. La preparación inicial
-es privada; requiere acceso a GitHub. El paquete todavía no se publica en PyPI.
+Repositorio público: https://github.com/andreu-alegre/ametller-cli.
+La instalación desde GitHub no requiere cuenta. El paquete todavía no se publica
+en PyPI.
 
 ## Instalar una versión
 
-Desde Git, con la autenticación de Git configurada para acceder al repo privado:
+Desde Git:
 
 ```bash
 uv tool install 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@v0.6.0'
@@ -18,7 +19,7 @@ Para instalar sólo el catálogo y las cestas, omite `[browser,mcp]`. `uv tool r
 utiliza el entorno de la herramienta ya instalada si la petición coincide.
 El login también admite Chrome o Edge instalados con `ametller login --browser chrome`.
 
-Alternativa sin uv, desde un checkout autorizado:
+Alternativa sin uv, después de clonar el repositorio:
 
 ```bash
 python3 -m venv .venv
@@ -31,6 +32,18 @@ ametller capabilities --json
 Las releases contienen wheel y sdist, además de `SHA256SUMS`. Para usar el wheel
 descargado, instala ese archivo en un entorno virtual. Cada instalación guarda
 su sesión fuera del repositorio; no distribuyas tu `~/.ametller`.
+
+## Datos y credenciales
+
+El código distribuido no incluye una cuenta de Ametller compartida. Cada usuario
+conecta la suya mediante `ametller login`. Tokens, cookies y borradores personales
+se guardan en su máquina, fuera del repositorio, con permisos privados.
+No se guarda la contraseña ni se envían sesiones a un servidor de este proyecto.
+
+Antes de abrir el repositorio se revisaron todos los objetos del historial Git,
+los paquetes de la release `v0.6.0` y sus sumas. No se encontraron credenciales ni
+valores privados de la cuenta utilizada para las pruebas. Esta revisión de
+publicación no certifica que el software esté libre de vulnerabilidades.
 
 ## Agentes
 
@@ -86,5 +99,5 @@ Antes de subir una versión:
 
 La CI no inicia sesión en Ametller ni ejecuta pruebas remotas con escrituras.
 Las pruebas de integración con cuenta requieren autorización propia y no forman
-parte de la publicación. PyPI y el cambio de visibilidad a público son pasos
-posteriores; este workflow no los ejecuta.
+parte de la publicación. La publicación en PyPI sigue pendiente y este workflow
+no la ejecuta.
