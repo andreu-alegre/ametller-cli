@@ -8,8 +8,8 @@ utiliza Playwright como dependencia opcional. Compatible con macOS y Linux, Pyth
 Licencia MIT. [Repositorio](https://github.com/andreu-alegre/ametller-cli) ·
 [Releases](https://github.com/andreu-alegre/ametller-cli/releases) ·
 [Skill para agentes](skills/ametller/SKILL.md) · [Instalación y MCP](docs/distribution.md).
-La distribución inicial es privada y requiere acceso al repositorio. No hay
-paquete publicado en PyPI ni npm.
+Repositorio público, instalable desde GitHub. No hay paquete publicado en PyPI
+ni npm.
 
 Busca productos reales, consulta sus fichas y prepara una cesta local con precios
 actuales. Utiliza las mismas APIs de Salesforce Commerce Cloud que la tienda online.
@@ -25,7 +25,7 @@ El alcance comprobado de domicilio figura en `docs/checkout-test-verification.js
 
 ## Ejecutar
 
-Con [uv](https://docs.astral.sh/uv/guides/tools/) y acceso Git al repo privado:
+Con [uv](https://docs.astral.sh/uv/guides/tools/), sin cuenta de GitHub:
 
 ```bash
 uv tool install 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@v0.6.0'
@@ -417,7 +417,7 @@ correspondan al producto solicitado.
 | Preparación de compra | Lista local, cuenta y validación anterior al pago con `checkout test` |
 | Enviar pedido y pago | Bloqueado; procesamiento real no validado, no existe comando `submit` |
 | CLI para agentes, skill y MCP local | JSON, descubrimiento sin red y MCP opcional; escrituras MCP desactivadas por defecto |
-| Distribución | Paquete Python instalable desde Git y releases; repo inicialmente privado |
+| Distribución | Repositorio público; paquete Python instalable desde Git y releases |
 
 Para igualar el flujo completo quedan pago/pedido SFRA y validar el login directo
 de terminal. El estado real de dirección/contacto se documenta por separado de

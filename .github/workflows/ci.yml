@@ -63,7 +63,7 @@ jobs:
           path: dist/*
 
   release:
-    name: Release privada en GitHub
+    name: Release en GitHub
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [tests, browser, package]
     runs-on: ubuntu-latest
