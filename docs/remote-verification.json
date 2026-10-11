@@ -1,0 +1,20 @@
+{
+  "verified_at": "2026-10-11T12:47:27.302509+00:00",
+  "scope": "isolated_guest",
+  "registered_account_verified": false,
+  "order_submitted": false,
+  "payment_submitted": false,
+  "checks": [
+    "isolated_guest_has_no_basket",
+    "create_with_item_and_readback",
+    "patch_quantity_and_readback",
+    "sync_preview",
+    "sync_patch_and_add_batches",
+    "shipping_methods_api",
+    "postal_coverage_api",
+    "delete_item_and_readback",
+    "clear_items_and_readback",
+    "all_test_baskets_deleted"
+  ],
+  "passed": 10
+}

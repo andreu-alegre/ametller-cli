@@ -1,0 +1,68 @@
+{
+  "verified_at": "2026-10-11T18:02:17.078277+00:00",
+  "source": "https://ametllerorigen.com/es/online",
+  "checks": [
+    {
+      "check": "guest_catalog_connection",
+      "ok": true
+    },
+    {
+      "check": "search_es",
+      "ok": true,
+      "total": 76,
+      "examples": [
+        {
+          "id": "3011",
+          "name": "Yogur griego Benecol 450g",
+          "price": 3.99,
+          "currency": "EUR"
+        },
+        {
+          "id": "2351",
+          "name": "Yogur griego natural Ametller Origen 1Kg",
+          "price": 2.89,
+          "currency": "EUR"
+        },
+        {
+          "id": "49375",
+          "name": "Yogur griego 0% MG KOUKAKIS 150g",
+          "price": 0.99,
+          "currency": "EUR"
+        }
+      ]
+    },
+    {
+      "check": "search_ca",
+      "ok": true
+    },
+    {
+      "check": "product_details",
+      "ok": true,
+      "id": "2351"
+    },
+    {
+      "check": "categories_and_category_search",
+      "ok": true
+    },
+    {
+      "check": "batch",
+      "ok": true
+    },
+    {
+      "check": "local_cart_and_budget_rollback",
+      "ok": true,
+      "subtotal": 8.47
+    },
+    {
+      "check": "local_checkout_preparation",
+      "ok": true
+    },
+    {
+      "check": "local_remove_clear",
+      "ok": true
+    }
+  ],
+  "account_used": false,
+  "remote_cart_modified": false,
+  "order_submitted": false
+}

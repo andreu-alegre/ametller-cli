@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ametller-cli"
+version = "0.6.0"
+description = "CLI no oficial de Ametller Origen: catálogo, cuenta y cestas"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.urls]
+Repository = "https://github.com/andreu-alegre/ametller-cli"
+Issues = "https://github.com/andreu-alegre/ametller-cli/issues"
+
+[project.optional-dependencies]
+browser = ["playwright>=1.50,<2"]
+mcp = ["mcp>=2.3,<3"]
+
+[project.scripts]
+ametller = "ametller.cli:main"
+ametller-mcp = "ametller.mcpserver:main"
+
+[tool.setuptools.packages.find]
+include = ["ametller*"]

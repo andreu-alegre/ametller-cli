@@ -1,0 +1,3 @@
+# ID  cantidad de unidades de venta
+2351 2     # Yogur griego natural Ametller Origen 1 kg
+42171 1    # Manojo de plátanos canarios (aprox. 900 g)

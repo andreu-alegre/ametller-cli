@@ -1,0 +1,32 @@
+{
+  "version": "0.4.0",
+  "verified_at": "2026-10-11T14:40:12.119027+00:00",
+  "scope": "registered_account",
+  "checks": [
+    "temporary_basket_created_with_budget",
+    "home_preview",
+    "home_method_and_postcode_readback",
+    "live_home_slots",
+    "home_slot_id_and_date_readback",
+    "checkout_test_no_purchase",
+    "order_history_unchanged",
+    "temporary_basket_deleted"
+  ],
+  "passed": 8,
+  "prepayment_checks": {
+    "same_registered_account": true,
+    "products_present": true,
+    "contact_present": true,
+    "address_present": false,
+    "delivery_slot_selected": true,
+    "shipping_accepted_by_store": false,
+    "payment_form_available": true
+  },
+  "home_address_verified": false,
+  "prepayment_ready": false,
+  "order_submitted": false,
+  "payment_submitted": false,
+  "payment_processing_verified": false,
+  "payment_sandbox_available": null,
+  "delivery_slot_reserved": null
+}

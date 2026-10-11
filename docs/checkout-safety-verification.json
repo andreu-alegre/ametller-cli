@@ -1,0 +1,22 @@
+{
+  "version": "0.4.0",
+  "verified_at": "2026-10-11T14:56:47.087469+00:00",
+  "local_tests_passed": 53,
+  "real_chromium_forms_tested_with_fictional_details": true,
+  "foreign_origin_rejected": true,
+  "address_review_has_no_default_choice": true,
+  "web_payment_and_order_controllers_blocked_before_network": true,
+  "scapi_payment_and_order_writes_blocked_before_authentication": true,
+  "address_change_during_review_blocks_resubmission": true,
+  "payment_processing_verified": false,
+  "payment_sandbox_available": null,
+  "registered_home_address_review": "timed_out_without_user_selection",
+  "review_follow_up": {
+    "checked_at": "2026-10-11T15:30:02.835705+00:00",
+    "test_basket_deleted": true,
+    "account_basket_count": 0,
+    "account_order_count": 0,
+    "pending_operation": false,
+    "home_address_verified": false
+  }
+}

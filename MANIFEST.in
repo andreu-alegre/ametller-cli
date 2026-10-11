@@ -1,0 +1,7 @@
+include AGENTS.md README.md LICENSE CHANGELOG.md
+recursive-include skills *.md
+recursive-include examples *.txt *.json
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include docs *.md *.json *.png
+exclude .env .env.* *.har *.HAR

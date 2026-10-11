@@ -1,0 +1,103 @@
+{
+  "verified_at": "2026-10-11T15:38:16.007653+00:00",
+  "source": "https://ametllerorigen.com/es/promociones",
+  "checks": [
+    {
+      "check": "guest_all_pages_and_product_conditions",
+      "ok": true,
+      "total": 237,
+      "products_with_promotion_data": 234,
+      "examples": [
+        {
+          "id": "301",
+          "name": "Aguacate extra - unidad",
+          "price": 2.25,
+          "promotions": [
+            {
+              "id": "64425",
+              "label": "2x4€",
+              "promotional_price": null,
+              "promotional_price_cents": null,
+              "club_only": null
+            }
+          ]
+        },
+        {
+          "id": "101",
+          "name": "Brócoli extra",
+          "price": 1.99,
+          "promotions": [
+            {
+              "id": "65166",
+              "label": "2x3,50€",
+              "promotional_price": null,
+              "promotional_price_cents": null,
+              "club_only": null
+            }
+          ]
+        },
+        {
+          "id": "302",
+          "name": "Arándanos - bandeja 125g",
+          "price": 2.99,
+          "promotions": [
+            {
+              "id": "65119",
+              "label": "2x5€",
+              "promotional_price": null,
+              "promotional_price_cents": null,
+              "club_only": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "check": "club_filter_across_all_pages",
+      "ok": true,
+      "total": 85
+    },
+    {
+      "check": "pagination",
+      "ok": true
+    },
+    {
+      "check": "query_within_club_offers",
+      "ok": true,
+      "total": 7,
+      "examples": [
+        {
+          "id": "2350",
+          "name": "Yogur griego natural Ametller Origen 125g - 4uds.",
+          "price": 1.39,
+          "promotions": [
+            {
+              "id": "64148",
+              "label": "PRECIO CLUB",
+              "promotional_price": 1.09,
+              "promotional_price_cents": 109,
+              "club_only": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "check": "lots_ca",
+      "ok": true,
+      "total": 56
+    },
+    {
+      "check": "raw_product_conditions",
+      "ok": true
+    },
+    {
+      "check": "authenticated_catalog_read",
+      "ok": true
+    }
+  ],
+  "account_used": true,
+  "remote_cart_modified": false,
+  "payment_submitted": false,
+  "order_submitted": false
+}

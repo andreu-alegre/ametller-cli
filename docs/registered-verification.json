@@ -1,0 +1,19 @@
+{
+  "verified_at": "2026-10-11T13:11:34.389354+00:00",
+  "scope": "registered_account",
+  "account_connection": "import_har",
+  "identity_verified": true,
+  "refresh_token_rotation_verified": true,
+  "profile_addresses_orders_read_verified": true,
+  "shipping_methods_read_verified": true,
+  "cart_add_set_remove_verified": true,
+  "cart_visible_in_sfra_web_verified": true,
+  "sfra_delivery_slots_read_verified": true,
+  "delivery_slots_returned": 35,
+  "cart_empty_after_test": true,
+  "test_delivery_defaults_cleared": true,
+  "order_submitted": false,
+  "payment_submitted": false,
+  "direct_password_login_verified": false,
+  "new_address_slot_confirmation_payment_integration_complete": false
+}

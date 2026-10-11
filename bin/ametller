@@ -1,0 +1,7 @@
+#!/bin/sh
+CLI_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+CLI_PYTHON=python3
+if [ -z "${VIRTUAL_ENV:-}" ] && [ -x "$CLI_DIR/.venv/bin/python" ]; then
+    CLI_PYTHON="$CLI_DIR/.venv/bin/python"
+fi
+PYTHONPATH="$CLI_DIR${PYTHONPATH:+:$PYTHONPATH}" exec "$CLI_PYTHON" -m ametller "$@"
