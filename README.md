@@ -1,5 +1,9 @@
 # ametller-cli
 
+![ametller-cli: consulta de productos y cupones desde el terminal. CLI no oficial.](assets/promo/ametller-cli-launch-v2.png)
+
+[Ver promo animada de 12 segundos](assets/promo/ametller-cli-promo.mp4) · [Proyecto Remotion](video/README.md)
+
 CLI no oficial de **Ametller Origen**, inspirada en la experiencia de
 [mercadona-cli](https://github.com/ivorpad/mercadona-cli). Implementación independiente
 en Python. Catálogo y cestas sin dependencias de ejecución; el login por navegador

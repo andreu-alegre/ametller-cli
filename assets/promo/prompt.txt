@@ -1,0 +1,21 @@
+Use case: ads-marketing.
+Asset type: polished landscape launch poster for a public GitHub README and an X post, 1920x1080, 16:9.
+Primary request: promote ametller-cli, an independent, unofficial open-source Python CLI for Ametller Origen, with a striking premium tech aesthetic that feels natural and fresh.
+Input image 1: official Ametller Origen logo reference ONLY. Reproduce its tree emblem, EST. 1830, AMETLLER ORIGEN lettering and olive circular badge accurately as a small brand reference badge, without inventing a logo or suggesting an official partnership. Do not reproduce the entire white square background.
+Scene/backdrop: deep charcoal forest-green background, subtle fine terminal grid, elegant lime-green edge lighting. A large translucent dark terminal window dominates the right half, almost frontal for legibility, with a crisp luminous border and understated shadows. In the lower-right foreground, a small editorial still life of two fresh tomatoes, herbs and a plain paper grocery bag; realistic materials with subtle green reflections. Keep the image spacious, premium, carefully designed.
+Composition: upper-left small official logo badge, large left-aligned headline and project name; right terminal; bottom footer. Generous safe margins of at least 6%. Flat, crisp typography readable on mobile; strong hierarchy. No excess icons, tiny gibberish or busy circuitry.
+Color palette: charcoal #071712, warm ivory #F6F3E7, natural olive, crisp lime #BFFF69. No purple or blue sci-fi.
+Exact text, render verbatim, no other words:
+Small project label: "ametller-cli"
+Large main headline on two lines: "Ametller." then "En tu terminal."
+Supporting line: "Catálogo · Promociones · Cupones · Cesta"
+Small capability label: "CLI + MCP local"
+Terminal title: "ametller-cli"
+Terminal body, four lines in a clear monospaced font:
+"$ ametller search tomate --json"
+"$ ametller promotions --json"
+"$ ametller coupons --status active"
+"$ ametller remote-cart get --json"
+Bottom-left visible label: "Proyecto no oficial · Pago manual en la web"
+Bottom-right repository: "github.com/andreu-alegre/ametller-cli"
+Constraints: spell all command strings exactly; no prices, customer names, account emails, personal coupon IDs, tokens, credentials, purchase confirmations or invented results. No claims of automatic payment. This is an editorial promo graphic, not a real CLI screenshot. No X logo. No official endorsement language. Do not add any extra text. Keep the unofficial label comfortably legible.

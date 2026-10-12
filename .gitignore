@@ -21,6 +21,9 @@ checkout-details.json
 .DS_Store
 .coverage
 htmlcov/
+node_modules/
+video/out/
+video/.cache/
 *.pem
 *.key
 *.p12

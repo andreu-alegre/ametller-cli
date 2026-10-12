@@ -1,0 +1,8 @@
+He montado una CLI no oficial de Ametller Origen para personas y agentes.
+
+Catálogo, promociones, cupones personales y cesta. CLI + MCP local.
+
+El pago se termina manualmente en la web.
+
+Código abierto:
+https://github.com/andreu-alegre/ametller-cli

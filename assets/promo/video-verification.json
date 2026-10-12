@@ -1,0 +1,30 @@
+{
+  "scope": "illustrative_promo_video",
+  "verified_on": "2026-10-12",
+  "renderer": "Remotion 4.0.535",
+  "duration_seconds": 12,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "frames": 360,
+  "codec": "h264",
+  "pixel_format": "yuv420p",
+  "audio": false,
+  "size_bytes": 817858,
+  "sha256": "25c165c472e8730b04aba77c2b3799623df22a0ee8f26a3023034497cb15dafc",
+  "typecheck_passed": true,
+  "render_complete": true,
+  "full_decode_passed": true,
+  "catalog_source": "public_guest_cli_search_2026-10-12",
+  "coupon_data": "synthetic_examples",
+  "private_account_data_used": false,
+  "merchant_writes_sent": false,
+  "published_to_x": false,
+  "visual_review_frames": [
+    54,
+    130,
+    200,
+    270,
+    340
+  ]
+}
