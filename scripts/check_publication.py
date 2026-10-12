@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE_NAMES = {"account.json", "session.json", "remote-pending.json", "checkout-details.json", "cart.json"}
+PRIVATE_NAMES = {"account.json", "session.json", "club-account.json", "remote-pending.json", "checkout-details.json", "cart.json"}
 PATTERNS = {
     "clave privada": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     "token GitHub": re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})\b"),
@@ -23,7 +23,7 @@ def main():
     failures = []
     for name in paths:
         path = Path(name)
-        if path.name in PRIVATE_NAMES or path.name.startswith(".env") or path.suffix.lower() in {".har", ".pem", ".key", ".p12", ".pfx"}:
+        if path.name in PRIVATE_NAMES or path.name.startswith((".env", "coupon-read-")) or path.suffix.lower() in {".har", ".pem", ".key", ".p12", ".pfx", ".mobileconfig", ".cer"}:
             failures.append((name, "archivo privado"))
             continue
         if any(part in {".venv", ".state", "__pycache__"} for part in path.parts):

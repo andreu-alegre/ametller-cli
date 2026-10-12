@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ametller-cli"
-version = "0.6.0"
+version = "0.7.0"
 description = "CLI no oficial de Ametller Origen: catálogo, cuenta y cestas"
 readme = "README.md"
 license = "MIT"

@@ -3,6 +3,8 @@
 Repositorio público: https://github.com/andreu-alegre/ametller-cli.
 La instalación desde GitHub no requiere cuenta. El paquete todavía no se publica
 en PyPI.
+La release pública es 0.6.0. La lectura de cupones pertenece a la versión 0.7
+en desarrollo; hasta su publicación requiere instalar ese checkout local.
 
 ## Instalar una versión
 
@@ -39,6 +41,10 @@ El código distribuido no incluye una cuenta de Ametller compartida. Cada usuari
 conecta la suya mediante `ametller login`. Tokens, cookies y borradores personales
 se guardan en su máquina, fuera del repositorio, con permisos privados.
 No se guarda la contraseña ni se envían sesiones a un servidor de este proyecto.
+Los cupones usan otra sesión, importada desde una captura privada de la app propia
+con `club import-capture`. Se guarda en `club-account.json`, fuera del repositorio,
+sin cookies; no se distribuye con el paquete. La conexión móvil todavía requiere
+ese procedimiento avanzado y no tiene renovación automática.
 
 Antes de abrir el repositorio se revisaron todos los objetos del historial Git,
 los paquetes de la release `v0.6.0` y sus sumas. No se encontraron credenciales ni
@@ -75,13 +81,15 @@ tras autorización del usuario y las operaciones de producto exigen `max_eur`.
 Estos controles corresponden al MCP; la CLI conserva sus opciones originales.
 
 Herramientas de lectura: `capabilities`, `search_products`, `get_product`,
-`list_promotions`, `get_categories`, `get_account_status`, `get_local_cart`,
+`list_promotions`, `list_personal_coupons`, `get_mobile_club_status`,
+`get_categories`, `get_account_status`, `get_local_cart`,
 `prepare_local_checkout`, `get_remote_cart`, `list_remote_carts`,
 `preview_cart_sync`, `get_stores`, `get_delivery_status`, `get_shipping_methods`.
 Con escrituras: `set_local_cart_item`, `set_remote_cart_item`, `apply_cart_sync`,
 `clear_local_cart`. Las herramientas de cuenta no exponen cookies ni tokens;
 la cesta y la entrega pueden incluir datos privados. No hay login interactivo,
-cupones personales ni controladores de pago/pedido en MCP.
+activación de cupones ni controladores de pago/pedido en MCP. Los cupones se
+leen con la sesión móvil privada, sin devolver códigos de canje en la salida normal.
 
 La preparación de domicilio y recogida sigue disponible desde la CLI. Se evita
 exponer como lecturas MCP los cálculos web que pueden alterar la entrega.

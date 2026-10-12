@@ -15,7 +15,9 @@ Busca productos reales, consulta sus fichas y prepara una cesta local con precio
 actuales. Utiliza las mismas APIs de Salesforce Commerce Cloud que la tienda online.
 No requiere una cuenta: obtiene una sesión de invitado mediante el flujo público PKCE.
 
-**Versión 0.6:** incorpora distribución, skill para agentes, MCP local opcional y CI.
+**Versión 0.7 (en desarrollo):** añade lectura de cupones personales con la sesión de la app,
+separada del login web. La activación sigue pendiente.
+La versión 0.6 incorporó distribución, skill para agentes, MCP local opcional y CI.
 La versión 0.5 añadió promociones, filtro de Precio Club y lotes ahorro.
 La versión 0.4 incorporó preparación de domicilio, borrador privado de contacto y
 dirección, y `checkout test` para validar el checkout antes del pago. El login por
@@ -37,6 +39,8 @@ ametller login
 
 Omite los extras para instalar sólo la CLI sin navegador ni MCP. Cada usuario
 conecta su propia cuenta; los archivos de sesión permanecen en su máquina.
+El instalador anterior usa la release 0.6.0. Las funciones de cupones necesitan
+el código 0.7 de este checkout hasta publicar la nueva release.
 
 Desde este directorio, sin instalación:
 
@@ -121,6 +125,43 @@ un precio por unidad a partir de un `2x…`, ni se descuentan automáticamente o
 Club del presupuesto local. Las condiciones finales se comprueban en la cesta
 remota. No se reciben fechas de vigencia en estos datos. Esta consulta no modifica
 productos, entrega, pagos ni pedidos. Evidencia: `docs/promotions-verification.json`.
+
+## Cupones personales del Club
+
+La sesión móvil es independiente del login de la tienda web. La conexión inicial
+requiere una captura privada de la consulta de cupones de tu propia app; todavía
+no hay login móvil automático ni renovación automática de esa sesión.
+
+```bash
+ametller club import-capture --file ~/.ametller/mobile-capture/coupon-read-001.json
+ametller club status --json
+ametller coupons --json
+ametller coupons --status inactive --lang ca --json
+ametller coupons --id '<id devuelto por la consulta>' --json
+ametller club logout
+```
+
+El importador acepta únicamente el JSON del capturador de esta investigación,
+fuera del repositorio, con permisos privados: método `GET`, URL exacta
+`https://app.ametllerorigen.cat/api/mobile/v3/coupons`, `response_status: 200`
+y la cabecera `Authorization` en `request_headers`. No acepta un HAR genérico. Valida
+la sesión con una lectura antes de sustituir la conexión anterior y guarda sólo
+la autorización y la fecha de conexión en `~/.ametller/club-account.json`.
+No guarda contraseña ni cookies y no usa el token web como alternativa.
+
+La consulta devuelve título, estado, descuento, fechas y condiciones recibidas
+de la API. `active` es `null` si el estado no se reconoce. Los códigos de canje
+se excluyen de la salida normal; `--raw` devuelve los objetos originales y puede
+incluirlos, por lo que su salida es privada. `--id` filtra el listado recibido:
+no presupone otro endpoint de detalle. `club logout` elimina sólo la sesión
+móvil local. Si el servidor rechaza la sesión, hace falta conectar de nuevo;
+una fecha de expiración `null` significa que se desconoce.
+
+**La activación no está implementada.** Leer cupones no los activa ni confirma
+su aplicación al carrito. No se modifican entrega, cesta, pagos ni pedidos.
+La verificación está en [la investigación móvil](docs/mobile-club-investigation.md).
+Si se utiliza un proxy para obtener la captura, requiere consentimiento informado
+para el certificado temporal; al terminar, desactiva el proxy y elimina ese perfil.
 
 ## Presupuesto y cesta local
 
@@ -377,6 +418,8 @@ correspondan al producto solicitado.
 ## Estado y conexión
 
 - Estado local: `~/.ametller/`, configurable con `AMETLLER_HOME` o `--state-dir`.
+- `club-account.json` contiene la sesión móvil privada para cupones, separada de
+  `account.json`. No se copia al repositorio ni a los paquetes publicados.
 - `cart.json` contiene únicamente IDs y cantidades de la cesta local.
 - `site.json` cachea durante una hora la configuración pública descubierta en la web.
 - `session.json` cachea el token de invitado hasta su caducidad. No se guardan
@@ -407,7 +450,7 @@ correspondan al producto solicitado.
 | Login directo por email/contraseña | Implementado según SLAS B2C; pendiente de validación frente al login personalizado |
 | Acceso a pedidos anteriores y direcciones | Lecturas probadas con cuenta registrada |
 | Promociones, filtro de etiquetas Club y lotes ahorro | Implementado y probado con invitado y cuenta; no confirma descuento final de cesta |
-| Cupones personales y activación en la app | Rutas observadas en la app oficial; conexión y operaciones aún no implementadas. Ver [investigación](docs/mobile-club-investigation.md) |
+| Cupones personales de la app | Listado y filtro probados con sesión móvil privada; activación y renovación automática pendientes. Ver [investigación](docs/mobile-club-investigation.md) |
 | Cesta de la cuenta | Añadir, actualizar y eliminar probados con cuenta y web; lotes probados con invitado |
 | Código postal y métodos de envío | API probada con invitado y métodos también con cuenta |
 | Tiendas y recogida | Búsqueda por código postal y selección de tienda/método probadas |
@@ -443,7 +486,7 @@ python scripts/check_publication.py
 python -m pip install build twine
 python -m build
 python -m twine check dist/*
-python scripts/check_install.py dist/ametller_cli-0.6.0-py3-none-any.whl
+python scripts/check_install.py dist/ametller_cli-0.7.0-py3-none-any.whl
 ```
 
 Los tests son locales; la variante `AMETLLER_BROWSER_TESTS=1` requiere el extra

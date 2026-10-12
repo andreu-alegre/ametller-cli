@@ -31,7 +31,8 @@ class MCPTests(unittest.IsolatedAsyncioTestCase):
                 self.assertFalse(result.structured_content["mcp_writes_enabled"])
                 self.assertTrue(result.structured_content["payments_blocked"])
                 self.assertTrue(result.structured_content["orders_blocked"])
-                self.assertFalse(result.structured_content["personal_coupons_supported"])
+                self.assertTrue(result.structured_content["personal_coupons_supported"])
+                self.assertFalse(result.structured_content["personal_coupon_activation_supported"])
                 catalog.return_value.search.assert_not_called()
                 self.assertEqual(list(Path(directory).iterdir()), [])
 

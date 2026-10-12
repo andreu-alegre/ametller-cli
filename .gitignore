@@ -9,6 +9,11 @@ build/
 *.har
 *.HAR
 account.json
+club-account.json
+coupon-read-*.json
+*.mobileconfig
+*.cer
+mobile-capture/
 session.json
 remote-pending.json
 checkout-details.json

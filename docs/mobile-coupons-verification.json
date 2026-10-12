@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-12T09:26:42.523520+00:00",
+  "version": "0.7.0",
+  "endpoint": "https://app.ametllerorigen.cat/api/mobile/v3/coupons",
+  "method": "GET",
+  "http_status": 200,
+  "coupon_count": 4,
+  "checks": {
+    "cli_read": true,
+    "active_inactive_filters": true,
+    "id_filter_from_list": true,
+    "languages_es_ca": true,
+    "mcp_read_tools": true,
+    "cookie_free_request": true,
+    "mobile_web_identity_match_verified": true,
+    "normal_output_excludes_redeem_codes": true
+  },
+  "session_values_published": false,
+  "automatic_refresh_supported": false,
+  "activation_supported": false,
+  "coupon_activated": false,
+  "basket_modified": false,
+  "payment_submitted": false,
+  "order_submitted": false
+}

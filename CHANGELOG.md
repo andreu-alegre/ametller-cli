@@ -1,5 +1,16 @@
 # Cambios
 
+## 0.7.0 — en desarrollo
+
+- Lectura de cupones personales de la app: estado, vigencia, condiciones y filtros
+  por estado o ID. No activa ni aplica descuentos al carrito.
+- Sesión móvil separada de la web, importada desde una captura privada y validada
+  antes de guardarla. No almacena cookies ni contraseña, ni expone autenticación.
+- Herramientas MCP de lectura `list_personal_coupons` y `get_mobile_club_status`.
+- Salida normal sin códigos de canje, bloqueos de redirecciones y validación del
+  esquema remoto. Pruebas con datos ficticios y consulta real de sólo lectura.
+- Activación y renovación móvil automática pendientes; pagos y pedidos bloqueados.
+
 ## 0.6.0 — 2026-10-11
 
 - Distribución como paquete Python con licencia MIT, instrucciones de instalación

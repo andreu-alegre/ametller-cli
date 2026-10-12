@@ -29,7 +29,7 @@ class Storage:
             raise Error(f"Estado local inválido: {name}. Revisa {self.root}.") from None
 
     def write(self, name, value):
-        if name in ("account.json", "session.json", "checkout-details.json"):
+        if name in ("account.json", "session.json", "club-account.json", "checkout-details.json"):
             project = Path(__file__).resolve().parents[1]
             if self.root.resolve().is_relative_to(project):
                 raise Error("Las sesiones deben guardarse fuera del repositorio. Usa ~/.ametller o un directorio privado externo.")

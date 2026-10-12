@@ -15,6 +15,7 @@ from .webcheckout import delivery_slots, WebCheckout
 from .stores import find_stores, get_store
 from .details import collect_details, read_details
 from .promotions import promotion_result
+from .club import MobileClub, SESSION_FILE as CLUB_SESSION_FILE
 
 
 class Parser(argparse.ArgumentParser):
@@ -55,6 +56,15 @@ def parser():
     promotions.add_argument("--all", dest="all_results", action="store_true", help="Leer todas las páginas (máximo 5000 productos)")
     promotions.add_argument("--limit", type=int, default=20)
     promotions.add_argument("--offset", type=int, default=0)
+    coupons = command("coupons", "Leer los cupones personales de la app; no activar")
+    coupons.add_argument("--id", help="Seleccionar un cupón de la lista de esta cuenta")
+    coupons.add_argument("--status", choices=("active", "inactive"), help="Estado exacto devuelto por la app")
+    club = command("club", "Conectar o consultar la sesión del Club móvil, independiente del login web")
+    club_commands = club.add_subparsers(dest="action", required=True)
+    mobile_import = command("import-capture", "Importar una consulta privada de cupones de tu app", club_commands)
+    mobile_import.add_argument("--file", required=True)
+    command("status", "Verificar la sesión del Club leyendo los cupones", club_commands)
+    command("logout", "Eliminar sólo la sesión móvil local; no cierra la app", club_commands)
     product = command("product", "Ficha, precio, ingredientes y datos disponibles")
     product.add_argument("id")
     categories = command("categories", "Árbol de categorías o productos de una categoría")
@@ -182,10 +192,24 @@ def run(args, client, storage):
                 "catalog": ["search", "product", "categories", "promotions", "stores"],
                 "account": ["browser_login", "whoami", "addresses", "orders", "remote_cart", "delivery"],
                 "cart_scopes": ["local", "account"], "account_session_storage": "local_private",
-                "human_login_required": True, "personal_coupons_supported": False,
+                "human_login_required": True, "personal_coupons_supported": True,
+                "personal_coupon_activation_supported": False, "mobile_club_session_required": True,
                 "checkout_test_supported": True, "home_address_fully_verified": False,
                 "payments_blocked": True, "orders_blocked": True,
-                "notice": "Las promociones del catálogo no son cupones personales ni confirman descuentos de cesta. La selección de franja no certifica una reserva."}
+                "notice": "Las promociones del catálogo y los cupones personales se consultan por separado. La lectura no confirma descuentos de cesta. La selección de franja no certifica una reserva."}
+    if args.command == "coupons":
+        if args.account:
+            raise Error("Los cupones usan la sesión móvil del Club, no --account. Conecta con club import-capture.")
+        return MobileClub(storage, args.lang).coupons(args.id, args.status, args.raw)
+    if args.command == "club":
+        mobile = MobileClub(storage, args.lang)
+        if args.action == "import-capture":
+            return mobile.import_capture(args.file)
+        if args.action == "status":
+            return mobile.status()
+        with storage.lock("club"):
+            storage.delete(CLUB_SESSION_FILE)
+        return {"scope": "club_mobile", "connected": False, "app_session_closed": False}
     maximum = args.max_eur if args.max_eur is not None else os.environ.get("AMETLLER_MAX_EUR")
     if maximum is not None and decimal(maximum, "presupuesto") < 0:
         raise Error("El presupuesto no puede ser negativo.")
@@ -380,7 +404,14 @@ def display_product(product):
 
 
 def display(result):
-    if result.get("scope") == "account":
+    if "coupons" in result:
+        for coupon in result["coupons"]:
+            print(f"[{coupon['id']}] {coupon['title'].strip()} — estado: {coupon['status']}")
+            if coupon.get("badge_text"):
+                print(f"  {coupon['badge_text']} · hasta: {coupon.get('date_to') or 'desconocido'}")
+        print(f"{result['returned']} cupones mostrados de {result['total']} en la cuenta móvil.")
+        print(result["notice"])
+    elif result.get("scope") == "account":
         print(json.dumps(result, ensure_ascii=False, indent=2))
     elif "products" in result:
         for product in result["products"]:
