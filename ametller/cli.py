@@ -15,7 +15,7 @@ from .webcheckout import delivery_slots, WebCheckout
 from .stores import find_stores, get_store
 from .details import collect_details, read_details
 from .promotions import promotion_result
-from .club import MobileClub, SESSION_FILE as CLUB_SESSION_FILE
+from .club import MobileClub, SESSION_FILE as CLUB_SESSION_FILE, interactive_login
 
 
 class Parser(argparse.ArgumentParser):
@@ -56,13 +56,19 @@ def parser():
     promotions.add_argument("--all", dest="all_results", action="store_true", help="Leer todas las páginas (máximo 5000 productos)")
     promotions.add_argument("--limit", type=int, default=20)
     promotions.add_argument("--offset", type=int, default=0)
-    coupons = command("coupons", "Leer los cupones personales de la app; no activar")
+    coupons = command("coupons", "Consultar cupones personales o preparar una activación; --apply escribe")
+    coupons.add_argument("action", nargs="?", choices=("list", "activate"), default="list")
+    coupons.add_argument("coupon_id", nargs="?", help="Cupón concreto para activate")
+    coupons.add_argument("--apply", action="store_true", help="Activar el cupón indicado después de revisar su vista previa")
     coupons.add_argument("--id", help="Seleccionar un cupón de la lista de esta cuenta")
     coupons.add_argument("--status", choices=("active", "inactive"), help="Estado exacto devuelto por la app")
     club = command("club", "Conectar o consultar la sesión del Club móvil, independiente del login web")
     club_commands = club.add_subparsers(dest="action", required=True)
     mobile_import = command("import-capture", "Importar una consulta privada de cupones de tu app", club_commands)
     mobile_import.add_argument("--file", required=True)
+    mobile_login = command("login", "Conectar el Club con contraseña oculta; sin proxy ni HAR", club_commands)
+    mobile_login.add_argument("--form", action="store_true", help="Formulario local aislado en lugar del terminal")
+    mobile_login.add_argument("--timeout", type=int, default=900)
     command("status", "Verificar la sesión del Club leyendo los cupones", club_commands)
     command("logout", "Eliminar sólo la sesión móvil local; no cierra la app", club_commands)
     product = command("product", "Ficha, precio, ingredientes y datos disponibles")
@@ -193,16 +199,25 @@ def run(args, client, storage):
                 "account": ["browser_login", "whoami", "addresses", "orders", "remote_cart", "delivery"],
                 "cart_scopes": ["local", "account"], "account_session_storage": "local_private",
                 "human_login_required": True, "personal_coupons_supported": True,
-                "personal_coupon_activation_supported": False, "mobile_club_session_required": True,
+                "personal_coupon_activation_supported": True, "mobile_club_session_required": True,
+                "mobile_club_login_supported": True, "mobile_club_automatic_refresh_supported": False,
                 "checkout_test_supported": True, "home_address_fully_verified": False,
                 "payments_blocked": True, "orders_blocked": True,
                 "notice": "Las promociones del catálogo y los cupones personales se consultan por separado. La lectura no confirma descuentos de cesta. La selección de franja no certifica una reserva."}
     if args.command == "coupons":
         if args.account:
             raise Error("Los cupones usan la sesión móvil del Club, no --account. Conecta con club import-capture.")
+        if args.action == "activate":
+            if not args.coupon_id or args.id or args.status or args.raw:
+                raise Error("Usa coupons activate <id> [--apply], sin --id, --status ni --raw.")
+            return MobileClub(storage, args.lang).activate(args.coupon_id, args.apply)
+        if args.coupon_id or args.apply:
+            raise Error("--apply y el ID posicional sólo se usan con coupons activate <id>.")
         return MobileClub(storage, args.lang).coupons(args.id, args.status, args.raw)
     if args.command == "club":
         mobile = MobileClub(storage, args.lang)
+        if args.action == "login":
+            return interactive_login(storage, args.lang, args.form, args.timeout)
         if args.action == "import-capture":
             return mobile.import_capture(args.file)
         if args.action == "status":

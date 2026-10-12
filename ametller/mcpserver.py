@@ -28,7 +28,8 @@ def create_server(state_dir=None, lang="es", allow_writes=False):
         "con --allow-writes y requieren autorización del usuario para esa operación. "
         "No reintentes una escritura incierta: lee get_remote_cart y revisa la reconciliación. "
         "Pagos y pedidos bloqueados. Promociones Club no son cupones personales. "
-        "Los cupones requieren sesión móvil local independiente; no hay activación ni renovación automática."
+        "Los cupones requieren sesión móvil local independiente. Activa sólo un cupón autorizado tras revisar condiciones; "
+        "ante resultado incierto, consulta list_personal_coupons. No hay renovación móvil automática."
     ))
 
     def invoke(route, **values):
@@ -47,7 +48,7 @@ def create_server(state_dir=None, lang="es", allow_writes=False):
 
     def confirm(confirmed):
         if not confirmed:
-            raise ToolError("Presenta los cambios y el presupuesto y obtén autorización del usuario antes de enviar confirmed=true.")
+            raise ToolError("Presenta los cambios y obtén autorización específica del usuario antes de enviar confirmed=true.")
 
     @server.tool(annotations=read)
     def capabilities() -> dict[str, Any]:
@@ -76,13 +77,18 @@ def create_server(state_dir=None, lang="es", allow_writes=False):
     @server.tool(annotations=read)
     def list_personal_coupons(coupon_id: str | None = None,
                              status: Literal["active", "inactive"] | None = None) -> dict[str, Any]:
-        """Cupones personales de la app con su sesión móvil local. No activa, reserva ni aplica descuentos."""
+        """Lee cupones personales y reconcilia una activación pendiente. No activa, reserva ni aplica descuentos."""
         return invoke(["coupons"], id=coupon_id, status=status)
 
     @server.tool(annotations=read)
     def get_mobile_club_status() -> dict[str, Any]:
         """Valida la conexión móvil leyendo cupones, sin devolver token ni identidad privada."""
         return invoke(["club", "status"])
+
+    @server.tool(annotations=read)
+    def preview_coupon_activation(coupon_id: str) -> dict[str, Any]:
+        """Consulta estado y condiciones antes de activar un único cupón; no envía escrituras."""
+        return invoke(["coupons", "activate", "placeholder"], coupon_id=coupon_id)
 
     @server.tool(annotations=read)
     def get_categories(category_id: str | None = None,
@@ -140,6 +146,12 @@ def create_server(state_dir=None, lang="es", allow_writes=False):
 
     if allow_writes:
         @server.tool(annotations=write)
+        def activate_personal_coupon(coupon_id: str, confirmed: bool = False) -> dict[str, Any]:
+            """Activa un cupón autorizado. Verifica por lectura y bloquea nuevas escrituras si queda incierto."""
+            confirm(confirmed)
+            return invoke(["coupons", "activate", "placeholder"], coupon_id=coupon_id, apply=True)
+
+        @server.tool(annotations=write)
         def set_local_cart_item(product_id: str, quantity: str, max_eur: str, confirmed: bool = False) -> dict[str, Any]:
             """Fija cantidad absoluta LOCAL; 0 elimina. Requiere autorización del usuario y presupuesto."""
             confirm(confirmed)
@@ -173,7 +185,7 @@ def main(argv=None):
     root.add_argument("--version", action="version", version=__version__)
     root.add_argument("--state-dir", help="Estado privado local; comparte ~/.ametller con la CLI por defecto")
     root.add_argument("--lang", choices=("es", "ca"), default="es")
-    root.add_argument("--allow-writes", action="store_true", help="Exponer cambios de cesta; cada llamada exige confirmed=true")
+    root.add_argument("--allow-writes", action="store_true", help="Exponer cambios de cesta y activación de cupones; exige confirmed=true")
     args = root.parse_args(argv)
     try:
         server = create_server(args.state_dir, args.lang, args.allow_writes)

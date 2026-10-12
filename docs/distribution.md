@@ -41,10 +41,11 @@ El código distribuido no incluye una cuenta de Ametller compartida. Cada usuari
 conecta la suya mediante `ametller login`. Tokens, cookies y borradores personales
 se guardan en su máquina, fuera del repositorio, con permisos privados.
 No se guarda la contraseña ni se envían sesiones a un servidor de este proyecto.
-Los cupones usan otra sesión, importada desde una captura privada de la app propia
-con `club import-capture`. Se guarda en `club-account.json`, fuera del repositorio,
-sin cookies; no se distribuye con el paquete. La conexión móvil todavía requiere
-ese procedimiento avanzado y no tiene renovación automática.
+Los cupones usan otra sesión, conectada con `club login` en un terminal interactivo
+o `club login --form` en un formulario local. No necesita proxy, certificado ni HAR.
+Se guarda en `club-account.json`, fuera del repositorio, sin cookies ni contraseña;
+no se distribuye con el paquete. No tiene renovación automática. La importación
+de una captura propia sigue disponible como alternativa avanzada.
 
 Antes de abrir el repositorio se revisaron todos los objetos del historial Git,
 los paquetes de la release `v0.6.0` y sus sumas. No se encontraron credenciales ni
@@ -76,19 +77,19 @@ de tu instalación. CLI y MCP usan `~/.ametller` por defecto. `--state-dir` y
 La estructura de configuración concreta depende del cliente MCP.
 
 El MCP se inicia con herramientas de lectura. Para preparar también cambios de
-cesta, añade `--allow-writes` a `args`. Cada escritura exige `confirmed=true`
+cesta o activar un cupón autorizado, añade `--allow-writes` a `args`. Cada escritura exige `confirmed=true`
 tras autorización del usuario y las operaciones de producto exigen `max_eur`.
 Estos controles corresponden al MCP; la CLI conserva sus opciones originales.
 
 Herramientas de lectura: `capabilities`, `search_products`, `get_product`,
-`list_promotions`, `list_personal_coupons`, `get_mobile_club_status`,
+`list_promotions`, `list_personal_coupons`, `get_mobile_club_status`, `preview_coupon_activation`,
 `get_categories`, `get_account_status`, `get_local_cart`,
 `prepare_local_checkout`, `get_remote_cart`, `list_remote_carts`,
 `preview_cart_sync`, `get_stores`, `get_delivery_status`, `get_shipping_methods`.
 Con escrituras: `set_local_cart_item`, `set_remote_cart_item`, `apply_cart_sync`,
-`clear_local_cart`. Las herramientas de cuenta no exponen cookies ni tokens;
+`clear_local_cart`, `activate_personal_coupon`. Las herramientas de cuenta no exponen cookies ni tokens;
 la cesta y la entrega pueden incluir datos privados. No hay login interactivo,
-activación de cupones ni controladores de pago/pedido en MCP. Los cupones se
+desactivación de cupones ni controladores de pago/pedido en MCP. Los cupones se
 leen con la sesión móvil privada, sin devolver códigos de canje en la salida normal.
 
 La preparación de domicilio y recogida sigue disponible desde la CLI. Se evita

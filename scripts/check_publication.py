@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIVATE_NAMES = {"account.json", "session.json", "club-account.json", "remote-pending.json", "checkout-details.json", "cart.json"}
+PRIVATE_NAMES = {"account.json", "session.json", "club-account.json", "club-pending.json", "remote-pending.json", "checkout-details.json", "cart.json"}
 PATTERNS = {
     "clave privada": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     "token GitHub": re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,})\b"),

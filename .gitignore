@@ -10,6 +10,7 @@ build/
 *.HAR
 account.json
 club-account.json
+club-pending.json
 coupon-read-*.json
 *.mobileconfig
 *.cer

@@ -25,7 +25,8 @@ def main():
         result = subprocess.run([str(cli), "capabilities", "--json"], cwd=root, check=True, capture_output=True, text=True)
         data = json.loads(result.stdout)
         assert data["payments_blocked"] and data["orders_blocked"]
-        assert data["personal_coupons_supported"] and not data["personal_coupon_activation_supported"]
+        assert data["personal_coupons_supported"] and data["personal_coupon_activation_supported"]
+        assert data["mobile_club_login_supported"] and not data["mobile_club_automatic_refresh_supported"]
         assert "--status" in subprocess.check_output([str(cli), "coupons", "--help"], cwd=root, text=True)
         disconnected = subprocess.run([str(cli), "coupons", "--json", "--state-dir", str(root/"state")],
                                       cwd=root, capture_output=True, text=True)

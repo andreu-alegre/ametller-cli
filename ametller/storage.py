@@ -19,6 +19,12 @@ class Storage:
     def prepare(self):
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
 
+    def require_private_root(self):
+        root = self.root.resolve()
+        project = Path(__file__).resolve().parents[1]
+        if root.is_relative_to(project) or any((parent / ".git").exists() for parent in (root, *root.parents)):
+            raise Error("Las sesiones deben guardarse fuera de cualquier repositorio. Usa ~/.ametller o un directorio privado externo.")
+
     def read(self, name, default=None):
         try:
             with (self.root / name).open() as file:
@@ -29,10 +35,8 @@ class Storage:
             raise Error(f"Estado local inválido: {name}. Revisa {self.root}.") from None
 
     def write(self, name, value):
-        if name in ("account.json", "session.json", "club-account.json", "checkout-details.json"):
-            project = Path(__file__).resolve().parents[1]
-            if self.root.resolve().is_relative_to(project):
-                raise Error("Las sesiones deben guardarse fuera del repositorio. Usa ~/.ametller o un directorio privado externo.")
+        if name in ("account.json", "session.json", "club-account.json", "club-pending.json", "checkout-details.json"):
+            self.require_private_root()
         self.prepare()
         fd, tmp = tempfile.mkstemp(prefix=".tmp-", dir=self.root)
         try:

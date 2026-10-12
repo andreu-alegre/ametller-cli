@@ -1,6 +1,6 @@
 ---
 name: ametller
-description: Consultar productos, promociones, cupones personales y tiendas de Ametller Origen y preparar cestas mediante ametller-cli. Usar para solicitudes sobre su catálogo o una cuenta conectada; pagos, pedidos nuevos y activación de cupones no están disponibles.
+description: Consultar productos, promociones, cupones personales y tiendas de Ametller Origen, preparar cestas y activar cupones autorizados mediante ametller-cli. Usar para solicitudes sobre su catálogo o una cuenta conectada; pagos y pedidos nuevos están bloqueados.
 ---
 
 # Ametller Origen
@@ -49,15 +49,20 @@ ametller coupons --id '<id devuelto por la consulta>' --json
 ```
 
 Requieren una sesión móvil propia, separada del login web, en la versión 0.7.
-Si falta, indica al usuario que importe su captura privada con
-`ametller club import-capture --file <ruta privada>`; no leas ni imprimas el archivo
-de sesión o sus cabeceras. La captura inicial es un procedimiento avanzado,
-documentado en el README, sin login o renovación móvil automáticos. Un proxy
-con certificado temporal requiere consentimiento informado previo y debe
-desactivarse al terminar; también hay que eliminar el perfil temporal.
+Si falta, indica al usuario que ejecute `ametller club login` en un terminal
+interactivo o `ametller club login --form` para el formulario local. No pidas
+credenciales en el chat, ni las pases por argumentos o stdin, ni leas los archivos
+de sesión o sus cabeceras. El login directo no requiere proxy ni certificado.
+La sesión se conserva localmente y no se guarda la contraseña. La renovación
+automática no está verificada; si el servidor rechaza la sesión, vuelve a conectar.
 
-Consulta título, estado, vigencia y condiciones. No actives cupones ni infieras
-descuentos de cesta: la activación no está implementada. Evita `--raw` salvo
+Consulta título, estado, vigencia y condiciones. Para activar, presenta la vista
+previa `ametller coupons activate <id> --json` y obtén autorización para ese cupón
+concreto; después usa `--apply`. No actives todos los cupones por iniciativa propia.
+Un cupón ya activo no se reenvía. Si queda incierto, consulta `coupons` antes de
+cualquier nuevo cambio: el diario bloquea escrituras hasta confirmar el estado.
+No borres el diario ni reintentes automáticamente. No infieras descuentos de cesta.
+Evita `--raw` salvo
 petición expresa, porque puede incluir códigos de canje. Un estado desconocido
 se conserva como `active: null` y la expiración desconocida como `null`.
 
@@ -95,11 +100,14 @@ no sustituye la autorización. No existe una herramienta de ejecución de comand
 o peticiones HTTP arbitrarios. El login se realiza mediante la CLI.
 `list_personal_coupons` y `get_mobile_club_status` son lecturas que utilizan la
 sesión móvil privada del mismo directorio de estado; no exponen autenticación.
+`preview_coupon_activation` muestra el cupón. `activate_personal_coupon` sólo
+existe con `--allow-writes` y exige `confirmed=true` después de la autorización
+del usuario para ese ID. El login se hace localmente, fuera del MCP.
 
 ## Límites
 
 Pagos y creación de pedidos están bloqueados, sin opción para desactivarlo.
 `checkout prepare/test` no compra. Una franja seleccionada no certifica reserva.
-La dirección nueva a domicilio no está completamente validada; la activación de
-cupones y la renovación móvil automática siguen pendientes. Comunica estos límites si afectan a la
+La dirección nueva a domicilio no está completamente validada; la desactivación
+de cupones y la renovación móvil automática siguen pendientes. Comunica estos límites si afectan a la
 solicitud y utiliza las funciones disponibles.

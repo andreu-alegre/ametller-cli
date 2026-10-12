@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-12T09:26:42.523520+00:00",
+  "checked_at": "2026-10-12T11:23:49.001174+00:00",
   "version": "0.7.0",
   "endpoint": "https://app.ametllerorigen.cat/api/mobile/v3/coupons",
   "method": "GET",
@@ -13,13 +13,36 @@
     "mcp_read_tools": true,
     "cookie_free_request": true,
     "mobile_web_identity_match_verified": true,
-    "normal_output_excludes_redeem_codes": true
+    "normal_output_excludes_redeem_codes": true,
+    "mobile_login_from_cli_form": true,
+    "login_subject_matches_entered_email": true,
+    "password_and_basic_header_not_persisted": true,
+    "official_app_activation_and_readback": true,
+    "cli_activation_and_readback": true,
+    "activation_pending_journal_removed_after_confirmation": true,
+    "mcp_live_preview_and_already_active_no_post": true,
+    "private_state_rejects_other_git_checkouts": true
   },
   "session_values_published": false,
   "automatic_refresh_supported": false,
-  "activation_supported": false,
-  "coupon_activated": false,
+  "activation_supported": true,
+  "coupon_activated": true,
   "basket_modified": false,
   "payment_submitted": false,
-  "order_submitted": false
+  "order_submitted": false,
+  "active_coupon_count": 2,
+  "mobile_login_protocol": {
+    "method": "POST",
+    "endpoint": "https://app.ametllerorigen.cat/movil/api/v1/public/login",
+    "authentication": "Basic over HTTPS",
+    "body_empty": true,
+    "http_status": 200
+  },
+  "activation_protocol": {
+    "method": "POST",
+    "endpoint_template": "https://app.ametllerorigen.cat/api/mobile/v3/coupons/<id>/activate/",
+    "body_empty": true,
+    "http_status": 200
+  },
+  "local_tests_passed": 96
 }
