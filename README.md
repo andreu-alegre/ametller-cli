@@ -1,6 +1,6 @@
 # ametller-cli
 
-![ametller-cli: catálogo, promociones, cupones y cesta desde el terminal. Proyecto no oficial; pago manual en la web.](assets/promo/ametller-cli-launch.png)
+![ametller-cli: consulta de productos y cupones desde el terminal. CLI no oficial.](assets/promo/ametller-cli-launch-v2.png)
 
 CLI no oficial de **Ametller Origen**, inspirada en la experiencia de
 [mercadona-cli](https://github.com/ivorpad/mercadona-cli). Implementación independiente

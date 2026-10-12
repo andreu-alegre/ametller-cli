@@ -1,0 +1,12 @@
+Use case: style-transfer.
+Asset type: minimalist landscape promo card, 16:9, for the ametller-cli GitHub README and X.
+Edit target: the supplied launch poster. Simplify it substantially in response to the user's feedback. Preserve the idea of a beautiful CLI screen and the accurate Ametller Origen logo, but redesign the entire layout with much less text.
+Color palette: natural muted olive-green matching the supplied Ametller logo, warm cream/ivory, and a darker olive for the terminal. No fluorescent lime, black-green cyberpunk, blue or purple.
+Composition: calm warm cream background with generous empty space and precise editorial alignment. A small original Ametller logo at top left, with the project name "ametller-cli" to its right. Main focus is one large centered dark-olive terminal window, straight-on or only a very subtle angle, occupying roughly two thirds of the width. Soft realistic shadow, refined gently rounded corners, thin understated border, tiny muted olive window-control dots. A crisp minimalist graphic with subtle tactile paper quality.
+Terminal has just TWO command lines in large, comfortably readable ivory monospaced type, rendered EXACTLY:
+"$ ametller search tomate"
+"$ ametller coupons --status active"
+Then a small ivory cursor on an otherwise empty line. No terminal results, fake prices or coupon data.
+Only other text: project name "ametller-cli" in the top header and a modest but readable "CLI no oficial" label below the terminal. The original logo's own lettering must be retained accurately.
+Remove the previous huge headline, supporting feature list, CLI+MCP pill, GitHub URL, lengthy footer, all fruit, herbs, grocery bag, neon lighting, grid, reflections and decorative technology effects. Do not add replacement slogans or any additional text.
+Keep the logo faithful to the supplied original, without inventing symbols. Keep the design clearly a promo for an independent unofficial CLI. No claims of automated payment, endorsement or actual purchase. No personal data or credentials. Refined, simple, warm, brand-informed, almost Swiss editorial design.

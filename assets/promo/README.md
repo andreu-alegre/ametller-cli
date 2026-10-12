@@ -1,15 +1,19 @@
 # Material de promoción
 
-`ametller-cli-launch.png` es una portada horizontal para el README y un post en X.
-Se generó el 12 de octubre de 2026 con la herramienta integrada de generación de
-imágenes. El prompt completo está en `prompt.txt`; `x-post.txt` contiene un borrador
-del post, sin publicar.
+`ametller-cli-launch-v2.png` es la portada horizontal actual para el README y un
+post en X. Usa crema y verde oliva, dos comandos en una pantalla CLI y el aviso
+«CLI no oficial». Se editó el 12 de octubre de 2026 con la herramienta integrada de
+generación de imágenes; el prompt completo está en `prompt-v2.txt`.
+
+`ametller-cli-launch.png` y `prompt.txt` conservan la primera propuesta, con más
+texto y productos. `x-post.txt` contiene un borrador del post, sin publicar.
 
 Los comandos son ejemplos de funciones existentes. La terminal es una composición
 ilustrativa, no una captura de una cuenta. No contiene datos personales, precios,
 identificadores de cupones, sesiones ni credenciales.
 
-La imagen indica «Proyecto no oficial · Pago manual en la web». La CLI permite
+La portada actual indica «CLI no oficial». La primera propuesta también aclara
+«Pago manual en la web». La CLI permite
 consultar catálogo, promociones y cupones, gestionar la cesta y abrir el checkout
 para confirmación humana. No automatiza pagos ni pedidos.
 
