@@ -3,8 +3,18 @@
 Repositorio público: https://github.com/andreu-alegre/ametller-cli.
 La instalación desde GitHub no requiere cuenta. El paquete todavía no se publica
 en PyPI.
-La release pública es 0.6.0. Cupones (0.7) y checkout manual (0.8) están en ramas
-de desarrollo; hasta su publicación requieren instalar el checkout correspondiente.
+La release etiquetada pública es 0.6.0. El código actual de `main` incluye cupones
+y checkout manual (0.8); todavía no tiene una nueva release etiquetada.
+
+Para instalar todas las funciones actuales:
+
+```bash
+uv tool install --reinstall 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main'
+uv tool run --from 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main' playwright install chromium
+```
+
+La referencia `main` puede cambiar. Para reproducir una instalación, utiliza un
+commit concreto o una release etiquetada.
 
 ## Instalar una versión
 

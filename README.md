@@ -15,7 +15,7 @@ Busca productos reales, consulta sus fichas y prepara una cesta local con precio
 actuales. Utiliza las mismas APIs de Salesforce Commerce Cloud que la tienda online.
 No requiere una cuenta: obtiene una sesión de invitado mediante el flujo público PKCE.
 
-**Versión 0.8 (en desarrollo):** abre el checkout oficial en un navegador aislado
+**Código 0.8 (sin release todavía):** abre el checkout oficial en un navegador aislado
 para que el usuario termine la compra; incluye modo de revisión sin pago.
 La versión 0.7 añadió login móvil por email/contraseña, lectura
 y activación de cupones personales, con una sesión separada del login web.
@@ -42,8 +42,15 @@ ametller login
 
 Omite los extras para instalar sólo la CLI sin navegador ni MCP. Cada usuario
 conecta su propia cuenta; los archivos de sesión permanecen en su máquina.
-El instalador anterior usa la release 0.6.0. Los cupones y la apertura del checkout
-requieren las ramas de desarrollo 0.7 y 0.8, respectivamente, hasta publicar la nueva release.
+El instalador anterior usa la release 0.6.0. Para instalar el código actual de
+`main`, con cupones y apertura del checkout, hasta publicar la nueva release:
+
+```bash
+uv tool install --reinstall 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main'
+uv tool run --from 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main' playwright install chromium
+```
+
+`main` puede cambiar; una release etiquetada permite fijar una versión reproducible.
 
 Desde este directorio, sin instalación:
 
