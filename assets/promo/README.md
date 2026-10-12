@@ -8,9 +8,19 @@ generación de imágenes; el prompt completo está en `prompt-v2.txt`.
 `ametller-cli-launch.png` y `prompt.txt` conservan la primera propuesta, con más
 texto y productos. `x-post.txt` contiene un borrador del post, sin publicar.
 
+`ametller-cli-promo.mp4` es la versión animada: 12 segundos, 1920 × 1080, 30 fps,
+H.264 y sin audio. Mantiene crema y oliva, escribe los comandos, muestra resultados
+y cierra con el enlace al repo. `ametller-cli-video-poster.png` es un fotograma del
+vídeo. El proyecto editable y las instrucciones están en [video](../../video/README.md);
+`video-verification.json` registra dimensiones, decodificación y hash del archivo.
+
 Los comandos son ejemplos de funciones existentes. La terminal es una composición
-ilustrativa, no una captura de una cuenta. No contiene datos personales, precios,
-identificadores de cupones, sesiones ni credenciales.
+ilustrativa, no una captura de una cuenta. Las portadas estáticas no contienen datos
+personales, precios, identificadores de cupones, sesiones ni credenciales.
+
+El vídeo usa nombres, precios e IDs del catálogo público consultado el 12 de octubre
+de 2026, y dos cupones ficticios con IDs de demo. No se usan datos de una cuenta,
+sesiones ni credenciales.
 
 La portada actual indica «CLI no oficial». La primera propuesta también aclara
 «Pago manual en la web». La CLI permite
