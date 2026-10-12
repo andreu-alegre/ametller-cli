@@ -3,8 +3,18 @@
 Repositorio público: https://github.com/andreu-alegre/ametller-cli.
 La instalación desde GitHub no requiere cuenta. El paquete todavía no se publica
 en PyPI.
-La release pública es 0.6.0. La lectura de cupones pertenece a la versión 0.7
-en desarrollo; hasta su publicación requiere instalar ese checkout local.
+La release etiquetada pública es 0.6.0. El código actual de `main` incluye cupones
+y checkout manual (0.8); todavía no tiene una nueva release etiquetada.
+
+Para instalar todas las funciones actuales:
+
+```bash
+uv tool install --reinstall 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main'
+uv tool run --from 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main' playwright install chromium
+```
+
+La referencia `main` puede cambiar. Para reproducir una instalación, utiliza un
+commit concreto o una release etiquetada.
 
 ## Instalar una versión
 
@@ -94,6 +104,9 @@ leen con la sesión móvil privada, sin devolver códigos de canje en la salida 
 
 La preparación de domicilio y recogida sigue disponible desde la CLI. Se evita
 exponer como lecturas MCP los cálculos web que pueden alterar la entrega.
+`checkout open --max <importe>` también se usa sólo desde la CLI, por ser un flujo
+interactivo que espera al cierre del navegador. El modo normal permite al usuario
+pagar manualmente en Ametller; `--review-only` permite probar sin enviar escrituras.
 
 ## Versionar y publicar
 

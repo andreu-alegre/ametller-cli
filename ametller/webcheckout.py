@@ -347,14 +347,14 @@ class WebCheckout:
         shipment = order["shipping"][0]
         billing = (order.get("billing", {}).get("billingAddress") or {}).get("address") or {}
         profile = self.model["customer"].get("profile") or {}
-        pickup = shipment.get("selectedShippingMethod", {}).get("storePickupEnabled")
+        pickup = (shipment.get("selectedShippingMethod") or {}).get("storePickupEnabled")
         prefix = "c_storeDelivery" if pickup is True else "c_homeDelivery"
         checks = {"same_registered_account": True, "products_present": bool(basket.get("productItems")),
                   "contact_present": all(profile.get(key) for key in ("firstName", "lastName", "email")),
                   "address_present": bool(shipment.get("shippingAddress")),
                   "billing_address_present": all(billing.get(key) for key in ("firstName", "lastName", "address1", "postalCode", "city", "phone")),
                   "delivery_slot_selected": any(item.get(prefix + "SlotID") and item.get(prefix + "Date") for item in basket.get("shipments", [])),
-                  "shipping_accepted_by_store": order.get("steps", {}).get("shipping", {}).get("iscompleted") is True,
+                  "shipping_accepted_by_store": ((order.get("steps") or {}).get("shipping") or {}).get("iscompleted") is True,
                   "payment_form_available": self.page.payment_form_present}
         return {"scope": "account", "mode": "test", "checks": {key: bool(value) for key, value in checks.items()},
                 "prepayment_ready": all(checks.values()),

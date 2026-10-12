@@ -1,6 +1,6 @@
 ---
 name: ametller
-description: Consultar productos, promociones, cupones personales y tiendas de Ametller Origen, preparar cestas y activar cupones autorizados mediante ametller-cli. Usar para solicitudes sobre su catálogo o una cuenta conectada; pagos y pedidos nuevos están bloqueados.
+description: Consultar productos, promociones, cupones personales y tiendas de Ametller Origen, preparar cestas, activar cupones autorizados y abrir el checkout para confirmación humana mediante ametller-cli. Usar para solicitudes sobre su catálogo o una cuenta conectada; pagos y pedidos automáticos están bloqueados.
 ---
 
 # Ametller Origen
@@ -106,7 +106,16 @@ del usuario para ese ID. El login se hace localmente, fuera del MCP.
 
 ## Límites
 
-Pagos y creación de pedidos están bloqueados, sin opción para desactivarlo.
+Pagos y creación automática de pedidos están bloqueados, sin opción para desactivarlo.
+Si el usuario pide terminar manualmente, usa `ametller checkout open --max <importe>`
+desde la CLI con la cuenta web conectada; el comando no está expuesto en MCP.
+La ventana permite una compra real: el usuario controla la dirección, entrega,
+pago y validación bancaria. No inspecciones tarjetas, respuestas de pago o datos
+bancarios ni uses automatización para pulsar pagar. No afirmes que hubo o no hubo
+compra: el resultado manual permanece desconocido hasta comprobarlo con autorización.
+`--max` sólo revisa el importe inicial; el usuario debe revisar el total final en la web.
+Para pruebas sin compra, usa `--review-only`, que bloquea escrituras del navegador.
+Cerrar la ventana o interrumpir no demuestra que un pago manual se cancelara.
 `checkout prepare/test` no compra. Una franja seleccionada no certifica reserva.
 La dirección nueva a domicilio no está completamente validada; la desactivación
 de cupones y la renovación móvil automática siguen pendientes. Comunica estos límites si afectan a la

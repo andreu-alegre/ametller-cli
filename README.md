@@ -15,14 +15,17 @@ Busca productos reales, consulta sus fichas y prepara una cesta local con precio
 actuales. Utiliza las mismas APIs de Salesforce Commerce Cloud que la tienda online.
 No requiere una cuenta: obtiene una sesión de invitado mediante el flujo público PKCE.
 
-**Versión 0.7 (en desarrollo):** añade login móvil por email/contraseña, lectura
+**Código 0.8 (sin release todavía):** abre el checkout oficial en un navegador aislado
+para que el usuario termine la compra; incluye modo de revisión sin pago.
+La versión 0.7 añadió login móvil por email/contraseña, lectura
 y activación de cupones personales, con una sesión separada del login web.
 La versión 0.6 incorporó distribución, skill para agentes, MCP local opcional y CI.
 La versión 0.5 añadió promociones, filtro de Precio Club y lotes ahorro.
 La versión 0.4 incorporó preparación de domicilio, borrador privado de contacto y
 dirección, y `checkout test` para validar el checkout antes del pago. El login por
 navegador, catálogo, cestas, recogida y franjas están probados con la tienda.
-**Las peticiones de pago y creación de pedidos están bloqueadas en esta versión.**
+**Las peticiones automáticas de pago y creación de pedidos están bloqueadas.**
+El usuario puede pagar manualmente en la ventana oficial abierta con `checkout open`.
 El alcance comprobado de domicilio figura en `docs/checkout-test-verification.json`.
 
 ## Ejecutar
@@ -39,8 +42,15 @@ ametller login
 
 Omite los extras para instalar sólo la CLI sin navegador ni MCP. Cada usuario
 conecta su propia cuenta; los archivos de sesión permanecen en su máquina.
-El instalador anterior usa la release 0.6.0. Las funciones de cupones necesitan
-el código 0.7 de este checkout hasta publicar la nueva release.
+El instalador anterior usa la release 0.6.0. Para instalar el código actual de
+`main`, con cupones y apertura del checkout, hasta publicar la nueva release:
+
+```bash
+uv tool install --reinstall 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main'
+uv tool run --from 'ametller-cli[browser,mcp] @ git+https://github.com/andreu-alegre/ametller-cli@main' playwright install chromium
+```
+
+`main` puede cambiar; una release etiquetada permite fijar una versión reproducible.
 
 Desde este directorio, sin instalación:
 
@@ -407,6 +417,51 @@ de Adyen requieren una integración configurada para pruebas: no deben usarse en
 el checkout real. Para validar de verdad el procesamiento de pago sin comprar se
 necesita un entorno de pruebas facilitado por Ametller/Adyen.
 
+## Abrir el checkout para confirmación manual
+
+```bash
+ametller checkout open --max 50
+ametller checkout open --max 50 --browser chrome --timeout 1800
+ametller checkout open --max 50 --review-only --json
+```
+
+Necesita el extra browser, la cuenta web conectada con `ametller login` y una única
+cesta remota con productos. No sincroniza la cesta local ni elige dirección o franja
+por iniciativa propia. Usa `remote-cart sync` y las operaciones de entrega para
+prepararlas con la autorización correspondiente. Si todavía faltan datos, el
+checkout oficial permite completarlos manualmente. La apertura puede recalcular
+la propuesta de entrega mediante las consultas web ya utilizadas por `checkout test`.
+
+Antes de mostrar la tienda, la CLI comprueba identidad, cesta e importe conocido
+y valida de nuevo la cuenta dentro del contexto del navegador. `--max` es obligatorio
+y limita el importe inicial; las modificaciones posteriores y el total final se
+revisan en la web. Se transfieren sólo las cookies de autenticación necesarias,
+sin copiarlas a argumentos, URLs, perfiles persistentes, HAR o logs.
+
+En modo normal, **puedes realizar una compra real manualmente**. La CLI no rellena
+tarjetas, pulsa pagar, captura respuestas de pago ni controla una validación bancaria.
+La ventana permanece abierta hasta que la cierras o se agota el tiempo; el resultado
+se imprime entonces. `payment_submitted` y `order_submitted` son `null` porque la
+CLI no certifica lo que hayas hecho manualmente. Comprueba el pedido en Ametller
+antes de repetir un pago. La cuenta puede necesitar reconexión si la web rota su sesión.
+
+`--review-only` bloquea escrituras del navegador, el proveedor de pago y controladores
+SFRA no permitidos, incluyendo algunos que escriben mediante GET. Sirve para probar
+la apertura sin comprar; los formularios de entrega y pago pueden quedar limitados.
+No introduzcas tarjetas en este modo. Las API de la CLI conservan sus bloqueos de
+pago/pedido en ambos modos. El comando es interactivo y se usa desde la CLI; no se
+expone como herramienta MCP. [Evidencia](docs/checkout-browser-verification.json).
+
+Con autorización para crear y eliminar una cesta de cuenta temporal:
+
+```bash
+python scripts/smoke_checkout_browser.py
+```
+
+La prueba se detiene si ya existe una cesta y comprueba el historial antes y después.
+Usa sólo revisión y no acepta condiciones de compra. Para preparar una futura
+automatización de pagos, consulta [las opciones de pruebas](docs/payment-testing.md).
+
 ## Uso desde scripts y agentes
 
 Consulta `ametller capabilities --json` para descubrir funciones y límites
@@ -480,7 +535,7 @@ correspondan al producto solicitado.
 | Aplicar dirección guardada/método a cesta | Implementado; no probado con dirección guardada (cuenta de prueba sin direcciones) |
 | Domicilio, contacto y dirección nueva | Formularios SFRA implementados; ver evidencia actual de prueba registrada |
 | Preparación de compra | Lista local, cuenta y validación anterior al pago con `checkout test` |
-| Enviar pedido y pago | Bloqueado; procesamiento real no validado, no existe comando `submit` |
+| Enviar pedido y pago | Automatización bloqueada; `checkout open` permite confirmación humana en la web. Procesamiento real no validado |
 | CLI para agentes, skill y MCP local | JSON, descubrimiento sin red y MCP opcional; escrituras MCP desactivadas por defecto |
 | Distribución | Repositorio público; paquete Python instalable desde Git y releases |
 
@@ -508,7 +563,7 @@ python scripts/check_publication.py
 python -m pip install build twine
 python -m build
 python -m twine check dist/*
-python scripts/check_install.py dist/ametller_cli-0.7.0-py3-none-any.whl
+python scripts/check_install.py dist/ametller_cli-0.8.0-py3-none-any.whl
 ```
 
 Los tests son locales; la variante `AMETLLER_BROWSER_TESTS=1` requiere el extra
