@@ -1,5 +1,19 @@
 # Cambios
 
+## 0.7.0 — en desarrollo
+
+- Login móvil directo por email y contraseña oculta, o formulario local aislado,
+  sin proxy/HAR. Valida la sesión y la identidad antes de guardarlas.
+- Lectura de cupones personales de la app: estado, vigencia, condiciones y filtros
+  por estado o ID. Sesión separada de la web, sin cookies ni contraseña persistida.
+- Activación de un cupón concreto con vista previa, `--apply`, comprobación por
+  lectura y diario privado que bloquea nuevas escrituras ante resultado incierto.
+- MCP con listado, estado, vista previa y activación sólo con `--allow-writes`
+  y `confirmed=true` tras autorización específica del usuario.
+- Salida normal sin códigos de canje, bloqueos de redirecciones y validación del
+  esquema remoto. Pruebas con datos ficticios y consulta real de sólo lectura.
+- Renovación móvil automática y desactivación pendientes; pagos y pedidos bloqueados.
+
 ## 0.6.0 — 2026-10-11
 
 - Distribución como paquete Python con licencia MIT, instrucciones de instalación
