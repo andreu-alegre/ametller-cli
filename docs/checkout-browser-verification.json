@@ -1,0 +1,27 @@
+{
+  "version": "0.8.0",
+  "verified_at": "2026-10-12T12:29:13.399678+00:00",
+  "scope": "registered_account_review_browser",
+  "checks": [
+    "temporary_basket_created_with_budget",
+    "official_browser_opened",
+    "browser_account_verified",
+    "initial_total_within_budget",
+    "review_network_guard_enabled",
+    "order_history_unchanged",
+    "temporary_basket_deleted"
+  ],
+  "passed": 7,
+  "prepayment_ready": false,
+  "pending_checks": [
+    "address_present",
+    "billing_address_present",
+    "shipping_accepted_by_store"
+  ],
+  "review_requests_blocked": 47,
+  "payment_submitted": false,
+  "order_submitted": false,
+  "payment_processing_verified": false,
+  "payment_sandbox_available": null,
+  "sensitive_values_published": false
+}

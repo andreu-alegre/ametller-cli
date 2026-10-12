@@ -16,6 +16,7 @@ from .stores import find_stores, get_store
 from .details import collect_details, read_details
 from .promotions import promotion_result
 from .club import MobileClub, SESSION_FILE as CLUB_SESSION_FILE, interactive_login
+from .checkoutbrowser import open_checkout
 
 
 class Parser(argparse.ArgumentParser):
@@ -96,6 +97,10 @@ def parser():
     checkout = command("checkout", "Preparar una lista para completar la compra en la web")
     checkout_commands = checkout.add_subparsers(dest="action", required=True)
     command("prepare", "Revalidar cesta y devolver enlaces; no sincroniza ni compra", checkout_commands)
+    handoff = command("open", "Preparar y abrir checkout oficial para pago manual; puede recalcular entrega", checkout_commands)
+    handoff.add_argument("--review-only", action="store_true", help="Revisar sin permitir pagos ni escrituras del navegador")
+    handoff.add_argument("--browser", choices=("chromium", "chrome", "msedge"), default="chromium")
+    handoff.add_argument("--timeout", type=int, default=900, help="Tiempo máximo de la ventana, entre 30 y 1800 segundos")
     remote_checkout = command("account", "Leer la cesta de cuenta y preparar la continuación en la web", checkout_commands)
     remote_checkout.add_argument("--basket-id")
     rehearsal = command("test", "Validar el checkout real hasta antes del pago; pagos y pedidos bloqueados", checkout_commands)
@@ -202,6 +207,7 @@ def run(args, client, storage):
                 "personal_coupon_activation_supported": True, "mobile_club_session_required": True,
                 "mobile_club_login_supported": True, "mobile_club_automatic_refresh_supported": False,
                 "checkout_test_supported": True, "home_address_fully_verified": False,
+                "manual_checkout_browser_supported": True, "manual_checkout_mcp_supported": False,
                 "payments_blocked": True, "orders_blocked": True,
                 "notice": "Las promociones del catálogo y los cupones personales se consultan por separado. La lectura no confirma descuentos de cesta. La selección de franja no certifica una reserva."}
     if args.command == "coupons":
@@ -228,6 +234,8 @@ def run(args, client, storage):
     maximum = args.max_eur if args.max_eur is not None else os.environ.get("AMETLLER_MAX_EUR")
     if maximum is not None and decimal(maximum, "presupuesto") < 0:
         raise Error("El presupuesto no puede ser negativo.")
+    if args.command == "checkout" and args.action == "open":
+        return open_checkout(storage, args.lang, maximum, args.review_only, args.browser, args.timeout)
     if args.command == "login":
         if args.terminal:
             return login(storage, args.lang, args.email)

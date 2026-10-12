@@ -1,5 +1,19 @@
 # Cambios
 
+## 0.8.0 — en desarrollo
+
+- `checkout open`: prepara y valida la cesta de la cuenta y abre el checkout oficial
+  en un navegador aislado para que el usuario termine manualmente dirección, entrega y pago.
+- Identidad verificada también dentro del contexto del navegador, importe inicial
+  limitado con `--max` y rechazo si la cesta cambia antes de abrirse.
+- `--review-only` bloquea escrituras del navegador y servicios de pago para probar
+  la apertura sin comprar. Pagos y creación de pedidos automáticos siguen bloqueados.
+- Resultado manual desconocido conservado como `null`; no se captura tarjeta,
+  validación bancaria ni confirmación de pedido desde el navegador.
+- Preflight tolera un método de envío todavía sin seleccionar, conservándolo como pendiente.
+- Pruebas de Chromium con checkout ficticio, identidad diferente, total desconocido
+  y peticiones bloqueadas; explicación de simulador propio frente a sandbox oficial.
+
 ## 0.7.0 — en desarrollo
 
 - Login móvil directo por email y contraseña oculta, o formulario local aislado,

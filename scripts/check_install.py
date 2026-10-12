@@ -25,6 +25,8 @@ def main():
         result = subprocess.run([str(cli), "capabilities", "--json"], cwd=root, check=True, capture_output=True, text=True)
         data = json.loads(result.stdout)
         assert data["payments_blocked"] and data["orders_blocked"]
+        assert data["manual_checkout_browser_supported"] and not data["manual_checkout_mcp_supported"]
+        assert "--review-only" in subprocess.check_output([str(cli), "checkout", "open", "--help"], cwd=root, text=True)
         assert data["personal_coupons_supported"] and data["personal_coupon_activation_supported"]
         assert data["mobile_club_login_supported"] and not data["mobile_club_automatic_refresh_supported"]
         assert "--status" in subprocess.check_output([str(cli), "coupons", "--help"], cwd=root, text=True)
